@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  web:
+    build: ./web
+    volumes:
+      - ./web:/usr/src/app
+    ports:
+      - "3000:3000"
+    command: bash -c "npm run dev"
+    links:
+      - api
+
+  api:
+    build: ./api
+    environment:
+      - ROCKET_ADDRESS=0.0.0.0
+      - ROCKET_PORT=3001
+    ports: 
+      - "3001:3001"
+    volumes:
+      - ./api:/usr/src/app
