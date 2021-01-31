@@ -3,19 +3,31 @@ version: "3"
 services:
   web:
     build: ./web
+    container_name: "resortsWeb"
     volumes:
       - ./web:/usr/src/app
     ports:
       - "3000:3000"
-    command: bash -c "npm run dev"
+    environment: 
+      - NODE_ENV=development
+    command:
+      - npm
+      - run
+      - dev
+    depends_on: 
+      - api
     links:
       - api
 
   api:
     build: ./api
+    container_name: "resortsApi"
     environment:
       - ROCKET_ADDRESS=0.0.0.0
       - ROCKET_PORT=3001
+    command:
+      - cargo
+      - run
     ports: 
       - "3001:3001"
     volumes:
