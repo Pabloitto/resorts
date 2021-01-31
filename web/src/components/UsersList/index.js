@@ -12,7 +12,7 @@ const renderUsers = (users) => {
         <td>{user.first_name}</td>
         <td>{user.last_name}</td>
         <td>{user.email}</td>
-        <td>{user.created_at}</td>
+        <td>{user.resort}</td>
       </tr>
     )
   })
@@ -36,7 +36,7 @@ export const UsersList = () => {
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-            <th>Create At</th>
+            <th>Favorite Resort</th>
           </tr>
         </thead>
         <tbody>

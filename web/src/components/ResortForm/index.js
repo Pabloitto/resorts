@@ -1,8 +1,24 @@
 import React from 'react'
 
-export const ResortForm = () => {
+import { saveResort } from '../../services/api'
+
+export const ResortForm = ({
+  onSubmit
+}) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const payload = {
+      name: e.target.name.value,
+      description: e.target.description.value
+    }
+    await saveResort(payload)
+    e.target.name.value = ''
+    e.target.description.value = ''
+    onSubmit && onSubmit()
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className='form-group'>
         <label htmlFor='name'>Name</label>
         <input

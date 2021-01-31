@@ -84,7 +84,7 @@ fn make_cors() -> Cors {
         allowed_origins,
         allow_credentials: true,
         allowed_headers: AllowedHeaders::All,
-        allowed_methods: vec![Method::Get].into_iter().map(From::from).collect(),
+        allowed_methods: vec![Method::Get, Method::Post, Method::Delete, Method::Patch].into_iter().map(From::from).collect(),
         ..Default::default()
     }
     .to_cors()
@@ -138,9 +138,23 @@ fn add_user(user: Json<User>, users_state: State<UsersState>, resorts_state: Sta
 }
 
 #[get("/users")]
-fn get_users(state: State<UsersState>) -> JsonValue {
-    let data = state.read().unwrap();
-    let users: Vec<&User> = data.iter().collect::<Vec<&User>>();
+fn get_users(users_state: State<UsersState>, reports_state: State<ResortsState>) -> JsonValue {
+    let resorts_data = reports_state.read().unwrap();
+    let resorts: Vec<&Resort> = resorts_data.iter().collect::<Vec<&Resort>>();
+    let users_data = users_state.read().unwrap();
+    let mut users: Vec<User> = Vec::new();
+    for u in users_data.iter() {
+        let resort = resorts.iter().find(|r| r.id == u.resort).unwrap();
+        users.push(
+            User::new(
+                u.id.clone(),
+                u.first_name.clone(),
+                u.last_name.clone(),
+                u.email.clone(),
+                resort.name.clone()
+            )
+        )
+    }
     json!(users)
 }
 

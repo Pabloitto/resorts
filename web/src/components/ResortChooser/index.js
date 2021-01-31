@@ -39,7 +39,7 @@ export const ResortChooser = ({
       onChange={handleChange}
       required={required}
     >
-      <option>{defaultLabel}</option>
+      <option value=''>{defaultLabel}</option>
       {renderResorts(resorts)}
     </select>
   )

@@ -41,9 +41,15 @@ export const ResortsList = () => {
     })
   }, [])
 
+  const onSubmit = () => {
+    getResorts().then((resorts) => {
+      setResorts(resorts)
+    })
+  }
+
   return (
     <CardLayout title='Resorts'>
-      <ResortForm />
+      <ResortForm onSubmit={onSubmit} />
       <br />
       <table className='table table-striped'>
         <thead className='thead-light'>

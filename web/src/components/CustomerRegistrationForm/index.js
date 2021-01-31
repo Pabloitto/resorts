@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { getResorts } from '../../services/api'
+import { getResorts, saveUser } from '../../services/api'
 
 import { CardLayout } from '../CardLayout'
 
@@ -15,9 +15,24 @@ export const CustomerRegistrationForm = () => {
     })
   }, [])
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const payload = {
+      first_name: e.target.firstName.value,
+      last_name: e.target.lastName.value,
+      email: e.target.email.value,
+      resort: e.target.resort.value
+    }
+    await saveUser(payload)
+    e.target.firstName.value = ''
+    e.target.lastName.value = ''
+    e.target.email.value = ''
+    e.target.resort.value = ''
+  }
+
   return (
     <CardLayout title='Customer Registration'>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className='form-group'>
           <label htmlFor='firstName'>First Name</label>
           <input
