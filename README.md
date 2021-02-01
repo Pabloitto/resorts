@@ -51,10 +51,9 @@ You should be able to see the web application
 
 I know the app looks awesome right now, but there are some pending tasks to do:
 
-- [ ] Add unit test to front end and backend
+- [ ] Add unit test to front end
+- [ ] Add unit test to back end
 - [ ] Clean backend to split logic in different modules instead have everything inside the main.rs
 - [ ] Persist data in a database instead memory
-- [ ] Add functionality to delete a resort from the web app
-- [ ] Add functionality to update a resort from the web app
 - [ ] Add authentication to the endpoints
 
