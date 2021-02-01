@@ -22,5 +22,29 @@ https://docs.docker.com/compose/install/
 **Run Project**
 ```
 In a terminal just run docker-compose up
+...this could take a while the first time
 ```
+
+**Open the API**
+```
+Go to http://localhost:3001
+```
+
+You should get a 200 response
+
+```
+{
+  "message": "Welcome to the Resorts API",
+  "status": "ok"
+}
+```
+
+**Open the Web App**
+```
+Go to http//localhost:3000
+```
+
+You should be able to see the web application
+
+![alt text](https://github.com/Pabloitto/resorts/blob/master/ui-welcome.PNG?raw=true)
 
