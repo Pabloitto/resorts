@@ -14,16 +14,31 @@ export const doRequest = async (options) => {
   return response.data
 }
 
-export const saveResort = (resort) => (
-  doRequest({
-    url: '/resorts',
-    method: 'POST',
+export const saveOrUpdateResort = (id, resort) => {
+  let url = '/resorts'
+  let method = 'POST'
+
+  if (id) {
+    url += `/${id}`
+    method = 'PATCH'
+  }
+
+  return doRequest({
+    url,
+    method,
     data: resort
   })
-)
+}
 
 export const getResorts = () => (
   doRequest({ url: '/resorts' })
+)
+
+export const deleteResort = (id) => (
+  doRequest({
+    url: `/resorts/${id}`,
+    method: 'DELETE'
+  })
 )
 
 export const saveUser = (user) => (

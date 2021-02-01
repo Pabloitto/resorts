@@ -1,9 +1,11 @@
 import React from 'react'
 
-import { saveResort } from '../../services/api'
+import { saveOrUpdateResort } from '../../services/api'
 
 export const ResortForm = ({
-  onSubmit
+  onSubmit,
+  onChange,
+  initialState = {}
 }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -11,10 +13,12 @@ export const ResortForm = ({
       name: e.target.name.value,
       description: e.target.description.value
     }
-    await saveResort(payload)
-    e.target.name.value = ''
-    e.target.description.value = ''
+    await saveOrUpdateResort(initialState.id, payload)
     onSubmit && onSubmit()
+  }
+
+  const handleChange = (fieldName) => (evt) => {
+    onChange(fieldName, evt.target.value)
   }
 
   return (
@@ -26,7 +30,9 @@ export const ResortForm = ({
           type='text'
           className='form-control'
           placeholder='Name'
+          value={initialState.name || ''}
           required
+          onChange={handleChange('name')}
         />
       </div>
       <div className='form-group'>
@@ -36,7 +42,9 @@ export const ResortForm = ({
           type='text'
           className='form-control'
           placeholder='Description'
+          value={initialState.description || ''}
           required
+          onChange={handleChange('description')}
         />
       </div>
       <button type='submit' className='btn btn-primary'>Save</button>

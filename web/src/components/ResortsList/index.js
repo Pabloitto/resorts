@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { getResorts } from '../../services/api'
+
+import { deleteResort, getResorts } from '../../services/api'
+
+import { ActionButtons } from '../ActionButtons'
 
 import { CardLayout } from '../CardLayout'
+
 import { ResortForm } from '../ResortForm'
 
-const ActionButtons = () => {
-  return (
-    <>
-      <a>
-        <i className='glyphicon glyphicon-pencil' />
-      </a>
-      <a>
-        <i className='glyphicon glyphicon-trash' />
-      </a>
-    </>
-  )
-}
-
-const renderResorts = (resorts) => {
+const renderResorts = (resorts, onEdit, onDelete) => {
   return resorts.map((resort, i) => {
     return (
       <tr key={resort.id}>
@@ -25,7 +16,10 @@ const renderResorts = (resorts) => {
         <td>{resort.name}</td>
         <td>{resort.description}</td>
         <td>
-          <ActionButtons />
+          <ActionButtons
+            onEdit={() => onEdit(resort)}
+            onDelete={() => onDelete(resort)}
+          />
         </td>
       </tr>
     )
@@ -34,6 +28,7 @@ const renderResorts = (resorts) => {
 
 export const ResortsList = () => {
   const [currentResorts, setResorts] = useState([])
+  const [resortForEdition, setResortForEdition] = useState({})
 
   useEffect(() => {
     getResorts().then((resorts) => {
@@ -44,12 +39,40 @@ export const ResortsList = () => {
   const onSubmit = () => {
     getResorts().then((resorts) => {
       setResorts(resorts)
+      setResortForEdition({})
+    })
+  }
+
+  const onEdit = (resort) => {
+    setResortForEdition({
+      ...resortForEdition,
+      ...resort
+    })
+  }
+
+  const onDelete = (resort) => {
+    deleteResort(resort.id).then(() => {
+      getResorts().then((resorts) => {
+        setResorts(resorts)
+      })
+    })
+  }
+
+  const onChangeResort = (fieldName, value) => {
+    const updates = { [fieldName]: value }
+    setResortForEdition({
+      ...resortForEdition,
+      ...updates
     })
   }
 
   return (
     <CardLayout title='Resorts'>
-      <ResortForm onSubmit={onSubmit} />
+      <ResortForm
+        onSubmit={onSubmit}
+        initialState={resortForEdition}
+        onChange={onChangeResort}
+      />
       <br />
       <table className='table table-striped'>
         <thead className='thead-light'>
@@ -61,7 +84,7 @@ export const ResortsList = () => {
           </tr>
         </thead>
         <tbody>
-          {renderResorts(currentResorts)}
+          {renderResorts(currentResorts, onEdit, onDelete)}
         </tbody>
       </table>
     </CardLayout>

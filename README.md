@@ -49,7 +49,7 @@ You should be able to see the web application
 ![alt text](https://github.com/Pabloitto/resorts/blob/master/ui-welcome.PNG?raw=true)
 
 
-Even if the app is looking awesome right now, there are some pending tasks to do:
+I know the app looks awesome right now, but there are some pending tasks to do:
 
 - [ ] Add unit test to front end and backend
 - [ ] Clean backend to split logic in different modules instead have everything inside the main.rs
